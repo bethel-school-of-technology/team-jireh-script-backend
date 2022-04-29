@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     FirstName: DataTypes.STRING,
-      LastName: DataTypes.STRING,
+    LastName: DataTypes.STRING,
     Username:{
       type: DataTypes.STRING,
       unique: true
