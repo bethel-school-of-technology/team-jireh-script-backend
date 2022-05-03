@@ -65,4 +65,29 @@ router.get('/logout', function(req, res, next){
 });
 
 
+//Seller signup post
+router.post('/registerseller', function( req, res, next){
+  console.log(req.body);
+  models.Users.findOrCreate({
+    where:{ 
+      Username: req.body.Username
+    },
+    defaults:{
+      FirstName: req.body.FirstName,
+      LastName: req.body.LastName,
+      Email: req.body.Email,
+      Password: authService.hashPassword(req.body.Password),
+      Seller: true
+    }
+  }).spread(function(result, created){
+    if (created){
+      res.send('Seller account created!');
+      
+    }else {
+      res.send('User already exists.');
+    }
+  });
+});
+
+
 module.exports = router;
