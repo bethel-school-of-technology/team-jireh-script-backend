@@ -40,6 +40,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
       allowNull: false
     },
+    Seller: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Users',
