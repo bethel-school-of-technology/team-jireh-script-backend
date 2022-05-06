@@ -46,9 +46,9 @@ router.post('/login', function(req, res, next){
       if (passwordMatch){
       let token = authService.signUser(user);
       res.cookie('jwt', token);
-      res.send('Login successful!');
-      // res.redirect('/users/profile');
-      }else{
+      res.json({Username: user.Username, FirstName:user.FirstName, LastName:user.LastName, Email:user.Email});
+
+    }else{
         console.log('Wrong password');
         res.send('Wrong password');
       }
@@ -70,7 +70,7 @@ router.post('/registerseller', function( req, res, next){
   console.log(req.body);
   models.Users.findOrCreate({
     where:{ 
-      Username: req.body.Username
+      BusinessName: req.body.BusinessName
     },
     defaults:{
       FirstName: req.body.FirstName,
@@ -87,6 +87,33 @@ router.post('/registerseller', function( req, res, next){
       res.send('User already exists.');
     }
   });
+});
+
+
+//Seller Login Post
+router.post('/loginseller', function(req, res, next){
+  models.Users.findOne({
+    where: {
+      BusinessName: req.body.BusinessName,
+    }
+  }).then( user =>{
+    if(!user){
+      console.log("User not found");
+      return res.status(401).json({message:"Login Failed"});
+    }else{
+      let passwordMatch = authService.comparePasswords(req.body.Password, user.Password);
+      if (passwordMatch){
+      let token = authService.signUser(user);
+      res.cookie('jwt', token);
+      res.json({BusinessName: user.BusinessName, FirstName:user.FirstName, LastName:user.LastName, Email:user.Email});
+
+    }else{
+        console.log('Wrong password');
+        res.send('Wrong password');
+      }
+     
+    }
+  })
 });
 
 
