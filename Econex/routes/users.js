@@ -46,7 +46,8 @@ router.post('/login', function(req, res, next){
       if (passwordMatch){
       let token = authService.signUser(user);
       res.cookie('jwt', token);
-      res.json({Username: user.Username, FirstName:user.FirstName, LastName:user.LastName, Email:user.Email});
+      //res.json({Username: user.Username, FirstName:user.FirstName, LastName:user.LastName, Email:user.Email});
+      res.send(JSON.stringify(user))
 
     }else{
         console.log('Wrong password');
@@ -105,8 +106,8 @@ router.post('/loginseller', function(req, res, next){
       if (passwordMatch){
       let token = authService.signUser(user);
       res.cookie('jwt', token);
-      res.json({BusinessName: user.BusinessName, FirstName:user.FirstName, LastName:user.LastName, Email:user.Email});
-
+      //res.json({BusinessName: user.BusinessName, FirstName:user.FirstName, LastName:user.LastName, Email:user.Email});
+      res.send(JSON.stringify(user))
     }else{
         console.log('Wrong password');
         res.send('Wrong password');
