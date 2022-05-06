@@ -18,12 +18,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER 
     },
     FirstName: DataTypes.STRING,
     LastName: DataTypes.STRING,
     Username:{
       type: DataTypes.STRING,
+      unique: true
+    },
+    BusinessName:{
+      type:DataTypes.STRING,
       unique: true
     },
     Password: DataTypes.STRING,
