@@ -11,6 +11,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const { sequelize } = require('./models');
 var imageUploadRouter = require('./routes/imageUpload');
+var categoriesRouter = require('./routes/categories');
 
 var app = express();
 
@@ -23,11 +24,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/imageUpload', imageUploadRouter);
+app.use('/categories', categoriesRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    next(createError(404));
-  });
+// app.use(function(req, res, next) {
+//     next(createError(404));
+//   });
   
   // error handler
   app.use(function(err, req, res, next) {
