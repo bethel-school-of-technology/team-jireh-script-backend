@@ -11,9 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
      this.hasMany(models.categories,{
-       foriegnKey: 'userId'
-     })
-    }
+       foriegnKey: 'UserId'
+     })}
   };
   Users.init({
     UserId: {

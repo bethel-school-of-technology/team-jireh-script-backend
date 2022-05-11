@@ -44,9 +44,12 @@ app.use('/categories', categoriesRouter);
     throw err;
   });
   
-  models.sequelize.sync({alter:true}).then(function() {
-    console.log("DB All Sync'd Up")
-  });
+  //models.sequelize.sync({alter:true}).then(function() {
+    //console.log("DB All Sync'd Up")
+  //});
+  //models.sequelize.sync().then(function () {
+   // console.log("DB Sync'd up")
+ //});
   
 
 module.exports = app;

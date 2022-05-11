@@ -36,11 +36,12 @@ module.exports = (sequelize, DataTypes) => {
     imgURL:DataTypes.BLOB,
     Deleted: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: false,
+      allowNull:false 
     }
   }, {
     sequelize,
     modelName: 'categories',
   });
   return categories;
-};
+};  
