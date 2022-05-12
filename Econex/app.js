@@ -6,6 +6,8 @@ var logger = require('morgan');
 var models = require('./models');
 var passport = require('passport');
 var session = require('express-session');
+var cors = require('cors');
+var authService = require('./services/auth');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -14,12 +16,28 @@ var imageUploadRouter = require('./routes/imageUpload');
 var categoriesRouter = require('./routes/categories');
 
 var app = express();
-
+app.use(cors());
+ 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(async (req, res, next)=>{
+  const header = req.headers.authorization;
+
+  if (!header){
+       return next();
+  }
+
+  const token = header.split(' ')[1];
+  
+  const user = await authService.verifyUser(token);
+
+  req.user = user;
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -44,7 +62,7 @@ app.use('/categories', categoriesRouter);
     throw err;
   });
   
-  models.sequelize.sync({alter:true}).then(function() {
+  models.sequelize.sync().then(function() {
     console.log("DB All Sync'd Up")
   });
   
