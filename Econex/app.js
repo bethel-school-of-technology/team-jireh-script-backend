@@ -14,6 +14,8 @@ var usersRouter = require('./routes/users');
 const { sequelize } = require('./models');
 var imageUploadRouter = require('./routes/imageUpload');
 var categoriesRouter = require('./routes/categories');
+var creditcardsRouter = require('./routes/creditcards');
+
 
 var app = express();
 app.use(cors());
@@ -43,6 +45,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/imageUpload', imageUploadRouter);
 app.use('/categories', categoriesRouter);
+app.use('/creditcards', creditcardsRouter);
+
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -62,9 +66,18 @@ app.use('/categories', categoriesRouter);
     throw err;
   });
   
-  models.sequelize.sync().then(function() {
-    console.log("DB All Sync'd Up")
-  });
+
+  //models.sequelize.sync({alter:true}).then(function() {
+    //console.log("DB All Sync'd Up")
+  //});
+  models.sequelize.sync().then(function () {
+   console.log("DB Sync'd up")
+ });
+
+//   models.sequelize.sync().then(function() {
+//     console.log("DB All Sync'd Up")
+//   });
+
   
 
 module.exports = app;

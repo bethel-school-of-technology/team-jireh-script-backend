@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class categories extends Model {
+  class creditcards extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,21 +13,26 @@ module.exports = (sequelize, DataTypes) => {
         this.belongsTo(models.Users);
     }
   }
-  categories.init({
-    itemId: {
+  creditcards.init({
+    CcId: {
       allowNull: false,
-      autoIncrement: true,
+      autoIncrement: true, 
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-   
-    itemName: DataTypes.STRING,
-    itemPrice:{ 
-      type: DataTypes.DECIMAL(10,2),
-      allowNull: false
+    UserId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Users',
+        key: 'UserId'
+      }
     },
-    itemSeller: DataTypes.STRING,
-    imgURL:DataTypes.STRING,
+    CcFirstName: DataTypes.STRING,
+    CcLastName: DataTypes.STRING,
+    CcNumber:DataTypes.STRING,
+    CcSecurityCode: DataTypes.STRING,
+    CcMonth:DataTypes.STRING,
+    CcYear:DataTypes.STRING,
     Deleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -35,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'categories',
+    modelName: 'creditcard',
   });
-  return categories;
+  return creditcards;
 };  

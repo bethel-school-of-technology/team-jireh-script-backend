@@ -12,7 +12,9 @@ router.get('/', function(req, res, next) {
   });
 
   /* GET /:id get individual id*/
-  router.get('/:id', (req, res, next) =>{
+router.get('/:id', (req, res, next) =>{
+
+    
 const categoryId = parseInt(req.params.id);
 
 models.categories.findOne({
