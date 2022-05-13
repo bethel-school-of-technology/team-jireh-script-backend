@@ -5,11 +5,12 @@ const bcrypt = require('bcryptjs');
 
 
 var authService = {
-    signUser:function(user){
+    signUser:function(Users){
         const token = jwt.sign({
-            UserName: user.UserName,
-            UserId: user.UserId,
-            Admin: user.Admin
+            Username: Users.Username,
+            UserId: Users.UserId,
+            Admin: Users.Admin,
+            Seller: Users.Seller
         }, 'secretkey',
         {
             expiresIn: '1h'
