@@ -20,20 +20,14 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    UserId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Users',
-        key: 'UserId'
-      }
-    },
+   
     itemName: DataTypes.STRING,
     itemPrice:{ 
       type: DataTypes.DECIMAL(10,2),
       allowNull: false
     },
     itemSeller: DataTypes.STRING,
-    imgURL:DataTypes.BLOB,
+    imgURL:DataTypes.STRING,
     Deleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
