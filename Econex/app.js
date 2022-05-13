@@ -51,9 +51,9 @@ app.use('/creditcards', creditcardsRouter);
   //models.sequelize.sync({alter:true}).then(function() {
     //console.log("DB All Sync'd Up")
   //});
-  //models.sequelize.sync().then(function () {
-   //console.log("DB Sync'd up")
- //});
+  models.sequelize.sync().then(function () {
+   console.log("DB Sync'd up")
+ });
   
 
 module.exports = app;
