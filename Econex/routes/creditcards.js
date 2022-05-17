@@ -9,7 +9,7 @@ router.post('/savecard', function( req, res, next){
     let token = req.cookies.jwt;
     authService.verifyUser(token).then(user => {
     if (user){
-        models.creditcards.findOrCreate({
+        models.creditcard.findOrCreate({
             where:{ 
               CcNumber: req.body.CcNumber
             },
