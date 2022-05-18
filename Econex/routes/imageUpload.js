@@ -1,10 +1,9 @@
 require('dotenv').config();
 var express = require('express');
+const { restart } = require('nodemon');
 var router = express.Router();
 var models = require('../models');
-
-
-
+var authService = require('../services/auth');
 const multer = require('multer');
 const { Storage } = require('@google-cloud/storage');
 
@@ -13,14 +12,14 @@ const uploader = multer({
     limits: {
         fileSize: 5 * 1024 * 1024  //limits image to <5MB
     },
-})
+});
 
 console.log(process.env.ECONEX_PROJECT_ID);
 
-// const storage = new Storage({
-    //     projectId: process.env.ECONEX_PROJECT_ID,
-    //     keyFilename: process.env.ECONEX_KEY
-    // });
+const storage = new Storage({
+        projectId: process.env.ECONEX_PROJECT_ID,
+        keyFilename: process.env.ECONEX_KEY
+    });
 
 
 
@@ -31,6 +30,12 @@ console.log(process.env.ECONEX_PROJECT_ID);
 
 router.post('/photo', uploader.single('image'), async (req, res, next) =>{
     
+    const user = req.user;
+
+    if(!user){
+      res.status(403).send();
+      return;
+    }        
     const storage = new Storage({
         projectId: 'econex-76225',
         keyFilename: './services/econex-key.json'
@@ -60,9 +65,25 @@ blobStream.on('finish', () => {
 const encodedName = encodeURI(blob.name);
 const publicUrl =
 `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURI(blob.name)}?alt=media`;
-console.log(publicUrl);
 
-console.log(publicUrl);
+models.categories.update({
+        imgURL: publicUrl,
+    
+  }, {
+    where: {
+     
+       UserUserId: user.UserId
+    }
+  }).then(() => {
+        res.status(200).send({
+            fileName: req.file.originalname,
+            fileLocation: publicUrl
+        });    
+  }).catch(() =>{
+    res.status(400).send("Unsuccessful ");
+  })
+
+    
 
 });
 

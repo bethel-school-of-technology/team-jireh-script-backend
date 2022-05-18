@@ -9,7 +9,7 @@ router.post('/savecard', function( req, res, next){
     let token = req.cookies.jwt;
     authService.verifyUser(token).then(user => {
     if (user){
-        models.creditcards.findOrCreate({
+        models.creditcard.findOrCreate({
             where:{ 
               CcNumber: req.body.CcNumber
             },
@@ -21,12 +21,13 @@ router.post('/savecard', function( req, res, next){
               CcSecurityCode: req.body.CcSecurityCode,
               UserUserId: user.UserId
             }
-          }).spread(function(result, created){
-            if (created){
-              res.send('Card Successfully Saved!');
-            }else {
-              res.send('Card Already Saved!');
-            }});
+          }).then(creditcard =>{
+            if (creditcard){
+                res.send(JSON.stringify(creditcard));
+            } else{
+              res.send('No Cards Found')
+            }
+          });
 
           
         }else {
@@ -35,6 +36,81 @@ router.post('/savecard', function( req, res, next){
         }
       });
       });
+
+
+//get all cards
+router.get('/savedcards', function(req, res, next){
+    let token = req.cookies.jwt;
+    authService.verifyUser(token).then(user =>{
+      if(user){
+      models.creditcard
+      .findAll({
+        where:{
+          Deleted: false,
+          UserUserId: user.UserId
+        }
+      })
+      .then(creditcard =>{
+        if (creditcard){
+            res.send(JSON.stringify(creditcard));
+        } else{
+          res.send('No Cards Found')
+        }
+      });
+    }else{
+     res.send('Not Logged In')
+    }
+    })
+  });
+
+//Get One Card  
+router.get('/savedcards/:id', function(req, res, next){
+    let token = req.cookies.jwt;
+    authService.verifyUser(token).then(user => {
+    if(user){
+      models.creditcard
+      .findOne({
+        where:{CcId: parseInt(req.params.id),},
+        
+      })
+      .then(creditcard => {
+        res.send(JSON.stringify(creditcard))
+      })
+    }else{
+      res.send("You Must Be Logged In")
+    }
+  });
+    
+  });
+
+
+//delete card
+router.post('/deletecard/:id', function (req, res, next) {
+    let token = req.cookies.jwt;
+    authService.verifyUser(token).then(user => {
+    if(user){
+    models.creditcard;
+    const id  = req.params.id;
+    console.log(id)
+     models.creditcard.update({
+        Deleted: true
+     }, {
+       where: {
+         CcId: id
+       }
+     }
+     ).then(response => {
+       res.send("Card Deleted.")
+     })
+    } else{
+      res.send("You need to log in!");
+      
+    }
+    }); 
+    
+});
+
+     
         
   
 
