@@ -15,6 +15,7 @@ const { sequelize } = require('./models');
 var imageUploadRouter = require('./routes/imageUpload');
 var categoriesRouter = require('./routes/categories');
 var creditcardsRouter = require('./routes/creditcards');
+var adminRouter = require('./routes/admin');
 
 
 var app = express();
@@ -46,6 +47,7 @@ app.use('/users', usersRouter);
 app.use('/imageUpload', imageUploadRouter);
 app.use('/categories', categoriesRouter);
 app.use('/creditcards', creditcardsRouter);
+app.use('/admin', adminRouter);
 
 
 // catch 404 and forward to error handler
