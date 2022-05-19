@@ -21,7 +21,7 @@ router.post("/signup", function (req, res, next) {
       Email: req.body.Email,
       Password: authService.hashPassword(req.body.Password),
     },
-  }).spread(function (result, created) {
+  }).spread(function (user, created) {
     if (created) {
       //res.send('User successfully created!');
       res.send(JSON.stringify(user));
@@ -31,6 +31,10 @@ router.post("/signup", function (req, res, next) {
     }
   });
 });
+
+
+
+
 
 //Login Post
 router.post("/login", function (req, res, next) {
@@ -52,7 +56,8 @@ router.post("/login", function (req, res, next) {
         res.cookie("jwt", token);
         console.log("jwt", token);
         //res.json({Username: user.Username, FirstName:user.FirstName, LastName:user.LastName, Email:user.Email});
-        res.send(JSON.stringify(user));
+        //res.send(JSON.stringify(user));
+        res.send({user, token})
       } else {
         console.log("Wrong password");
         res.send("Wrong password");
@@ -81,9 +86,9 @@ router.post("/registerseller", function (req, res, next) {
       Password: authService.hashPassword(req.body.Password),
       Seller: true,
     },
-  }).spread(function (result, created) {
+  }).spread(function (user, created) {
     if (created) {
-      res.send("Seller account created!");
+      res.send(JSON.stringify(user));
     } else {
       res.send("User already exists.");
     }
