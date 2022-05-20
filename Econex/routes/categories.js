@@ -11,6 +11,27 @@ router.get('/', function(req, res, next) {
     })
   });
 
+
+/* GET return all inventory */
+router.get("/inventory", function (req, res, next) {
+  const user = req.user;
+  if (!user) {
+    res.status(403).send();
+    return;
+  }
+
+  models.categories
+    .findAll({
+      where: {
+        UserUserId: user.UserId,
+      },
+    })
+    .then((categoryList) => {
+      res.json(categoryList);
+    });
+});
+
+
   /* GET /:id get individual id*/
 router.get('/:id', (req, res, next) =>{
 
