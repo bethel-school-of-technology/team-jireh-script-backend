@@ -71,6 +71,7 @@ models.categories.findOne({
        defaults:{ 
         itemName: req.body.itemName,
       itemPrice: req.body.itemPrice,
+      itemDescription: req.body.itemDescription,
       itemSeller: req.body.itemSeller,
       imgURL: req.body.imgURL,
       UserUserId: user.UserId
@@ -120,6 +121,7 @@ models.categories.findOne({
       itemName: req.body.itemName,
       itemPrice: req.body.itemPrice,
       itemSeller: req.body.itemSeller,
+      itemDescription: req.body.itemDescription,
       imgURL: req.body.imgURL,
       UserUserId: user.UserId
     }, {
